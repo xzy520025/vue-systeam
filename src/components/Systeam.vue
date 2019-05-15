@@ -3,7 +3,7 @@
         <div class="Mean">
             <h4>VUE后台管理</h4>
             <div :style="{height:windowHeight + 'px'}">
-                <ul class="Mean-list" :style="{top:MeanListTop + 'px'}">
+                <ul class="Mean-list" :style="{top:MeanListTop + 'px'}" @mousewheel="mousewheel">
                     <li v-for="item in Mean" :key="item.Id" @click="LinkRouter(item.Path)">
                         {{item.Text}}
                     </li>
@@ -67,7 +67,28 @@ export default {
             
             }
         })
-      }
+      },
+      mousewheel(e){       
+         
+        var MeanListTop = this.$data.MeanListTop,windowHeight = this.$data.windowHeight;
+        if (e.wheelDelta > 0) {
+            MeanListTop += 60;
+            if (MeanListTop >= 0) {
+                MeanListTop = 0;
+            }
+            this.$data.MeanListTop = MeanListTop;
+        
+        }
+        else {
+            MeanListTop -= 60;
+            if(Math.abs(MeanListTop) >= ($('.Mean-list').innerHeight() - windowHeight)){
+                MeanListTop = - ($('.Mean-list').innerHeight() - windowHeight);
+            }
+            this.$data.MeanListTop = MeanListTop;
+            
+        }
+        return false;
+}
   }
 }
 </script>
@@ -95,6 +116,7 @@ export default {
         top:38px;
         left: 0px;
         width: 100%;
+        transition: all 0.6s;
     }
     .Mean-list li{
         cursor: pointer;
