@@ -31,5 +31,6 @@ table { border-collapse:collapse; border-spacing:0; }
     margin: 0px;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     color: #2c3e50;
+    box-sizing: border-box;
 }
 </style>
