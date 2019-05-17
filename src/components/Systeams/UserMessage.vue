@@ -1,5 +1,9 @@
 <template>
-    <div class="UserMessage">UserMessage</div>
+    <div class="UserMessage">
+        <div class="box">
+            <div>UserMessage</div>
+        </div>
+    </div>
 </template>
 <script>
 export default {
@@ -11,7 +15,27 @@ export default {
     },
 }
 </script>
-<style scoped>
+<style lang="less" scoped>
+   #fn{
+       .br1(@width,@height,@color) when (@width>100px) and (@color=#999){
+            width: @width;
+            height: @height;
+            color: @color;
+       }
 
+       .bg(@bgg) when (@bgg=green) , (@bgg=yellow){
+            background: @bgg;
+       }
+
+       .fz(@fzs:16px) when not (@fzs=20px){
+            font-size: @fzs;
+       }
+   }
+   .box{
+       #fn>.br1(105px,300px,#999);
+       #fn>.bg(green);
+       #fn>.fz(12px);
+   }
 </style>
+
 
