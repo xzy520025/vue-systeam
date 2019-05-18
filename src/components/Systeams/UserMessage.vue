@@ -32,10 +32,43 @@ export default {
        }
    }
    .box{
-       #fn>.br1(105px,300px,#999);
+       #fn>.br1(105Rpx,300px,#999);
        #fn>.bg(green);
        #fn>.fz(12px);
    }
+    //less
+    .Mean-list{
+        position: absolute;
+        top:38px;
+        left: 0px;
+        width: 100%;
+        transition: all 0.6s;
+        li{
+            cursor: pointer;
+            transition: all 0.6;
+            position: relative;
+            ul{
+                background: #ffff;
+            }
+        }
+    }
+
+    //css
+    .Mean-list{
+        position: absolute;
+        top:38px;
+        left: 0px;
+        width: 100%;
+        transition: all 0.6s;
+    }
+    .Mean-list li{
+        cursor: pointer;
+        transition: all 0.6;
+        position: relative;
+    }
+    .Mean-list li ul{
+        background: #ffff;
+    }
 </style>
 
 

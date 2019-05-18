@@ -4,9 +4,9 @@
             <h4>VUE后台管理</h4>
             <div :style="{height:windowHeight + 'px'}">
                 <ul class="Mean-list" :style="{top:MeanListTop + 'px'}" @mousewheel="mousewheel">
-                    <li v-for="item in Mean" :key="item.Id" @click="LinkRouter(item.Path,item.Id)" :style="{background:item.LinkBackground}">
-                        {{item.Text}}
-                    </li>
+                    <blockquote v-for="item in Mean" :key="item.Id" @click="LinkRouter(item.Path,item.Id)" :style="{background:item.LinkBackground}">
+                        <recur-sive :model="item"></recur-sive>
+                    </blockquote>
                 </ul>
             </div>
         </div>
@@ -26,8 +26,12 @@
 </template>
 
 <script>
+import recurSive from './Customize/Recursive';
 export default {
   name: 'Systeam',
+  components:{
+      recurSive:recurSive,
+  },
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
@@ -35,13 +39,41 @@ export default {
       MeanListTop:38,
       SysteamContent:'',
       Mean:[
-          {'Id':'2008741248741','Text':'首页','Path':'/Systeams/Console','LinkBackground':'#191c23'},
-          {'Id':'2008754156487','Text':'个人中心','Path':'/Systeams/UserMessage','LinkBackground':''},
+            {
+                    'Id':'2008741248741',
+                    'Text':'首页',
+                    'Path':'/Systeams/Console',
+                    'LinkBackground':'',
+                    'Leavl':'1',
+                    'Children':[
+                    {
+                        'Id':'20588478784',
+                        'Text':'2级菜单',
+                        'Path':'/Systeams/UserMessage',
+                        'LinkBackground':'',
+                        'Leavl':'2',
+                        'Children':[{
+                                'Id':'222222',
+                                'Text':'3级菜单',
+                                'Path':'/Systeams/UserMessage',
+                                'LinkBackground':'',
+                                'Leavl':'3',
+                            }]
+                        }
+                    ]
+            },
+            {
+                'Id':'2008754156487',
+                'Text':'个人中心',
+                'Path':'/Systeams/UserMessage',
+                'LinkBackground':'',
+                'Children':[],
+                'Leavl':'1',
+            },
       ]
     }
   },
   created(){
-    
     this.$router.push({
         path:'/Systeams/Console',
         query:{
@@ -95,7 +127,11 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="less" deep>
+    @background-noHover:#2d313e;
+    @background-Hover:#191c23;
+    @font-size-16:16px;
+    @background-noHover1:yellow;
     .Systeam{
         overflow: hidden;
     }
@@ -108,9 +144,9 @@ export default {
         width: 200px;
         text-align: center;
         position: relative;
-    }
-    .Mean h4{
-        z-index: 9999;
+        h4{
+          z-index: 9999;  
+        }
     }
     .Mean-list{
         position: absolute;
@@ -118,13 +154,21 @@ export default {
         left: 0px;
         width: 100%;
         transition: all 0.6s;
-    }
-    .Mean-list li{
-        cursor: pointer;
-        transition: all 0.6;
-    }
-    .Mean-list li:hover{
-        background: #191c23;
+        li{
+            cursor: pointer;
+            transition: all 0.6;
+            position: relative;
+            ul{
+                position: absolute;
+                width: 100%;
+                top: 0px;
+                left: 0px;
+            }
+           
+        }
+        li:hover{
+            background: #191c23;
+        }
     }
     .header{
         background: #2d313e;
@@ -167,4 +211,9 @@ export default {
         background: rgb(243, 243, 243);
         padding: 10px 15px;
     }
+
+
+
+   
 </style>
+
