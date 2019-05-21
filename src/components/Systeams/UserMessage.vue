@@ -1,233 +1,12 @@
 <template>
     <div class="UserMessage">
         <div class="box">
-       
+            <input type="text" v-model="a">
+            a:{{a}}
         </div>
-        
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
-        {{c()}}
+        c:{{c}}
+        d:{{d()}}
+        e:{{e()}}
     </div>
 </template>
 <script>
@@ -235,61 +14,66 @@ export default {
     name:'UserMessage',
     data(){
         return {
-           data:'2015/5/5'
+           a:1,
+           b:2
         }
     },
     created(){
         this.newdate;
     },
     computed:{
-        newdate(){
-        
+        c(){
+           return this.b = parseInt(this.a) + 1;
         }
     },
     methods:{
-        c(){
-            return this.$data.data.split('/').join('-') + (5*10+2501/58+(5000/2*45000));
+        d(){
+            //return this.b = parseInt(this.a) + 1;
+        },
+        e(){
+            //this.d();
+            console.log(this.b)
         }
     }
 }
 </script>
 <style lang="less" scoped>
-   #fn{
-       .br1(@width,@height,@color) when (@width>100px) and (@color=#999){
-            width: @width;
-            height: @height;
-            color: @color;
-       }
+//    #fn{
+//        .br1(@width,@height,@color) when (@width>100px) and (@color=#999){
+//             width: @width;
+//             height: @height;
+//             color: @color;
+//        }
 
-       .bg(@bgg) when (@bgg=green) , (@bgg=yellow){
-            background: @bgg;
-       }
+//        .bg(@bgg) when (@bgg=green) , (@bgg=yellow){
+//             background: @bgg;
+//        }
 
-       .fz(@fzs:16px) when not (@fzs=20px){
-            font-size: @fzs;
-       }
-   }
-   .box{
-       #fn>.br1(105Rpx,300px,#999);
-       #fn>.bg(green);
-       #fn>.fz(12px);
-   }
-    //less
-    .Mean-list{
-        position: absolute;
-        top:38px;
-        left: 0px;
-        width: 100%;
-        transition: all 0.6s;
-        li{
-            cursor: pointer;
-            transition: all 0.6;
-            position: relative;
-            ul{
-                background: #ffff;
-            }
-        }
-    }
+//        .fz(@fzs:16px) when not (@fzs=20px){
+//             font-size: @fzs;
+//        }
+//    }
+//    .box{
+//        #fn>.br1(105Rpx,300px,#999);
+//        #fn>.bg(green);
+//        #fn>.fz(12px);
+//    }
+//     //less
+//     .Mean-list{
+//         position: absolute;
+//         top:38px;
+//         left: 0px;
+//         width: 100%;
+//         transition: all 0.6s;
+//         li{
+//             cursor: pointer;
+//             transition: all 0.6;
+//             position: relative;
+//             ul{
+//                 background: #ffff;
+//             }
+//         }
+//     }
 
     //css
     .Mean-list{
