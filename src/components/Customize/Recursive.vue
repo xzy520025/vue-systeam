@@ -1,7 +1,7 @@
 <template>
 
     <li :class="CssName">
-        <span class="TreeSpan" style="color:#fff;" @click="LinkRouter(model.Path,model.Id,$event)" :data-id="model.Id" ref="dataId" :style="CssBg">{{model.Text}}</span>
+        <span class="TreeSpan" style="color:#fff;" @click="LinkRouter(model.Path,model.Id,$event)" :data-id="model.Id" ref="dataId" :class="bgg ? 'active':'no-active'">{{model.Text}}</span>
         <ul v-if="model.Children.length > 0" :class="'item-ul-child item-ul-'+model.Leavl" :id="model.Id">
             <recur-sive v-for="item in model.Children" :model="item" :key="item.Id"></recur-sive>
         </ul> 
@@ -16,7 +16,8 @@ export default {
         return {
             msg:'111',
             CssBg:'',
-            CheckId:null
+            CheckId:null,
+            bgg:false
         }
     },
     created(){
@@ -34,6 +35,7 @@ export default {
     },
     methods:{
         LinkRouter(Path,Id,el){
+            this.$data.bgg = true;
             this.$data.CheckId = this.$refs.dataId.dataset.id;
             var ids = this.$refs.dataId.dataset.id
             if(Path != ''){
@@ -41,13 +43,14 @@ export default {
                     path:Path
                 })
             }else{
-                $('.item-ul-child').each(function(index,item){
-                    var id = $(this).attr('id');
-                    $(item).css({'height':'0px'});
-                    if(ids == id){
-                        $(this).css({'height':'auto'});
-                    }
-                })
+                
+                // $('.item-ul-child').each(function(index,item){
+                //     var id = $(this).attr('id');
+                //     $(item).css({'height':'0px'});
+                //     if(ids == id){
+                //         $(this).css({'height':'auto'});
+                //     }
+                // })
             }
       }
     }
