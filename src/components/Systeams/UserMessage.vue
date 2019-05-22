@@ -76,21 +76,7 @@ export default {
 //     }
 
     //css
-    .Mean-list{
-        position: absolute;
-        top:38px;
-        left: 0px;
-        width: 100%;
-        transition: all 0.6s;
-    }
-    .Mean-list li{
-        cursor: pointer;
-        transition: all 0.6;
-        position: relative;
-    }
-    .Mean-list li ul{
-        background: #ffff;
-    }
+ 
 </style>
 
 

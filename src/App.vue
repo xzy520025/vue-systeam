@@ -17,7 +17,7 @@ h1, h2, h3, h4, h5, h6{ font-size:100%; }
 address, cite, dfn, em, var { font-style:normal; }
 code, kbd, pre, samp { font-family:couriernew, courier, monospace; }
 small{ font-size:12px; }
-ul, ol { list-style:none; }
+/* ul, ol { list-style:none; } */
 a { text-decoration:none; }
 a:hover { text-decoration:underline; }
 sup { vertical-align:text-top; }

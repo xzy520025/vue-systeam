@@ -4,7 +4,7 @@
             <h4>VUE后台管理</h4>
             <div :style="{height:windowHeight + 'px'}">
                 <ul class="Mean-list" :style="{top:MeanListTop + 'px'}" @mousewheel="mousewheel">
-                    <blockquote v-for="item in Mean" :key="item.Id" @click="LinkRouter(item.Path,item.Id)" :style="{background:item.LinkBackground}">
+                    <blockquote v-for="item in Mean" :key="item.Id">
                         <recur-sive :model="item"></recur-sive>
                     </blockquote>
                 </ul>
@@ -41,24 +41,17 @@ export default {
       Mean:[
             {
                     'Id':'2008741248741',
-                    'Text':'首页',
-                    'Path':'/Systeams/Console',
-                    'LinkBackground':'',
+                    'Text':'系统管理',
+                    'Path':'',
                     'Leavl':'1',
                     'Children':[
                     {
                         'Id':'20588478784',
-                        'Text':'2级菜单',
-                        'Path':'/Systeams/UserMessage',
-                        'LinkBackground':'',
+                        'Text':'首页',
+                        'Path':'/Systeams/Console',
+                   
                         'Leavl':'2',
-                        'Children':[{
-                                'Id':'222222',
-                                'Text':'3级菜单',
-                                'Path':'/Systeams/UserMessage',
-                                'LinkBackground':'',
-                                'Leavl':'3',
-                            }]
+                        'Children':[]
                         }
                     ]
             },
@@ -66,7 +59,6 @@ export default {
                 'Id':'2008754156487',
                 'Text':'个人中心',
                 'Path':'/Systeams/UserMessage',
-                'LinkBackground':'',
                 'Children':[],
                 'Leavl':'1',
             },
@@ -86,21 +78,6 @@ export default {
     //   console.log($(window).innerHeight() - $('.header').innerHeight() - 20)
   },
   methods:{
-      LinkRouter(Path,Id){
-        var MeanList = this.$data.Mean;
-        MeanList.forEach(e => {
-            if(e.Id == Id){
-                e.LinkBackground = '#191c23';
-            }else{
-                e.LinkBackground = '';
-            }
-        });
-        
-        this.$data.Mean = MeanList;
-        this.$router.push({
-            path:Path
-        })
-      },
       mousewheel(e){       
          
         var MeanListTop = this.$data.MeanListTop,windowHeight = this.$data.windowHeight;
@@ -154,21 +131,44 @@ export default {
         left: 0px;
         width: 100%;
         transition: all 0.6s;
-        li{
-            cursor: pointer;
-            transition: all 0.6;
-            position: relative;
-            ul{
-                position: absolute;
-                width: 100%;
-                top: 0px;
-                left: 0px;
-            }
+        // li{
+        //     cursor: pointer;
+        //     transition: all 0.6;
+        //     position: relative;
+        //     ul{
+        //         position: absolute;
+        //         width: 100%;
+        //         top: 0px;
+        //         left: 0px;
+        //     }
            
-        }
-        li:hover{
-            background: #191c23;
-        }
+        // }
+        // li:hover{
+        //     background: #191c23;
+        // }
+    }
+
+    .item-list-Children{
+        // position: relative;
+    }
+
+    .item-ul-child{
+        // position:absolute;
+        overflow: hidden;
+        height: 0px;
+    }
+
+    .TreeSpan{
+        color: #ffffff;
+        display: block;
+        width: 100%;
+        height: 38px;
+        line-height: 38px;
+        transition: all 0.6s;
+        cursor: pointer;
+    }
+    .TreeSpan:hover{
+        background: #191c23;
     }
     .header{
         background: #2d313e;
