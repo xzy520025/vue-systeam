@@ -4,8 +4,8 @@
             <h4>VUE后台管理</h4>
             <div :style="{height:windowHeight + 'px'}">
                 <ul class="Mean-list" :style="{top:MeanListTop + 'px'}" @mousewheel="mousewheel">
-                    <blockquote v-for="item in Mean" :key="item.Id">
-                        <recur-sive :model="item"></recur-sive>
+                    <blockquote v-for="(item,i) in Mean" :key="item.Id">
+                        <recur-sive :model="item" :Mindex="i"></recur-sive>
                     </blockquote>
                 </ul>
             </div>
@@ -40,37 +40,41 @@ export default {
       SysteamContent:'',
       Mean:[
             {
-                    'Id':'2008741248741',
-                    'Text':'系统管理',
-                    'Path':'',
-                    'Leavl':'1',
-                    'Children':[
+                'Id':'2008741248741',
+                'Text':'系统管理',
+                'Path':'',
+                'Leavl':'1',
+                'Children':[
                     {
                         'Id':'20588478784',
-                        'Text':'首页',
+                        'Text':'控制台',
                         'Path':'/Systeams/Console',
-                   
+                
                         'Leavl':'2',
                         'Children':[]
-                        }
-                    ]
+                    },
+                    {
+                        'Id':'2008754156487',
+                        'Text':'个人中心',
+                        'Path':'/Systeams/UserMessage',
+                        'Children':[],
+                        'Leavl':'2',
+                    }
+                ]
             },
             {
-                'Id':'2008754156487',
-                'Text':'个人中心',
-                'Path':'/Systeams/UserMessage',
-                'Children':[],
+                'Id':'2008741248741222',
+                'Text':'业务视图',
+                'Path':'',
                 'Leavl':'1',
-            },
+                'Children':[]
+            }
       ]
     }
   },
   created(){
     this.$router.push({
         path:'/Systeams/Console',
-        query:{
-            id:'1'
-        }
     })
   },
   mounted(){
@@ -156,6 +160,7 @@ export default {
         // position:absolute;
         overflow: hidden;
         height: 0px;
+        transition: all 0.3s;
     }
 
     .TreeSpan{
@@ -164,7 +169,7 @@ export default {
         width: 100%;
         height: 38px;
         line-height: 38px;
-        transition: all 0.6s;
+        transition: all 0.3s;
         cursor: pointer;
     }
     .TreeSpan:hover{

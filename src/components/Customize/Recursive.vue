@@ -1,8 +1,8 @@
 <template>
     <li :class="CssName">
-        <span class="TreeSpan" style="color:#fff;" @click="LinkRouter(model.Path,model.Id,$event)" :data-id="model.Id" ref="dataId" :class="bgg ? 'active':'no-active'">{{model.Text}}</span>
+        <span :class="'TreeSpan TreeSpan-'+model.Leavl" :style="{background:model.backgorund}" style="color:#fff;" @click="LinkRouter(model.Path,model.Id,model,$event)" :data-id="model.Id" ref="dataId">{{model.Text}}</span>
         <ul v-if="model.Children.length > 0" :class="'item-ul-child item-ul-'+model.Leavl" :id="model.Id">
-            <recur-sive v-for="item in model.Children" :model="item" :key="item.Id"></recur-sive>
+            <recur-sive v-for="(item,i) in model.Children" :model="item" :Mindex="i" :key="item.Id"></recur-sive>
         </ul> 
     </li>
 
@@ -10,38 +10,23 @@
 <script>
 export default {
     name:'recurSive',
-    props: ['model'],
+    props: ['model','Mindex'],
     data(){
         return {
             msg:'111',
             CssBg:'',
             CheckId:null,
             bgg:false,
-            bgg_child:false
+            bgg_child:false,
+            bggs:'red'
         }
     },
     mounted(){
-        let models = this.model;
-        var newArr = [];
-        function ArrSet(arr){
-        
-            for(var i = 0;i<arr.length;i++){
-                newArr.push(arr[i])
-                if(arr[i].Children.length > 0){
-                    ArrSet(arr[i].Children)
-                }
-            }
-
-        }
-        for(var i = 0;i<models.length;i++){
-            if(models[i].Children.length > 0){
-                ArrSet(models[i].Children)
-            }else{
-                models[i]['CLass'] = 'aaa';
-                newArr.push(models[i])
-            }
-        }
-        console.log(newArr)
+        var Arr = this.model;
+        this.model['backgorund'] = 'none';
+        this.model['height'] = '0px';
+        this.model['_ID'] = this.model.Id;
+        console.log(this.Mindex)
     },  
     computed:{
        CssName(){
@@ -54,27 +39,18 @@ export default {
         }
     },
     methods:{
-        LinkRouter(Path,Id,el){
-            this.$data.bgg = true;
-            this.$data.bgg_child = true;
+        LinkRouter(Path,Id,Arrs,el){
             var ids = this.$refs.dataId.dataset.id;
-            
-            console.log(el)
+            $('.item-ul-'+Arrs.Leavl).height(0);
+            $('.TreeSpan-'+Arrs.Leavl).css({'background':'none'});
             if(Path != ''){
                 this.$router.push({
                     path:Path
                 })
+                $('.TreeSpan-'+Arrs.Leavl+'[data-id='+ids+']').css({'background':'rgb(3,'+Arrs.Leavl+','+(Arrs.Leavl*12)+')'});
             }else{
-                
-                $('.item-ul-child').each(function(index,item){
-                    var id = $(this).attr('id');
-                    $(item).css({'height':'0px'});
-                    if(ids == id){
-                        $(this).css({'height':'auto'});
-                    }else{
-                        $(item).css({'height':'0px'})
-                    }
-                })
+                $('.item-ul-'+Arrs.Leavl+'[id='+ids+']').css({'height':'auto'});
+                $('.TreeSpan-'+Arrs.Leavl+'[data-id='+ids+']').css({'background':'rgb(3,'+Arrs.Leavl+','+(Arrs.Leavl*12)+')'});
             }
       }
     }
