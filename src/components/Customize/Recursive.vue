@@ -43,6 +43,7 @@ export default {
             var ids = this.$refs.dataId.dataset.id;
             $('.item-ul-'+Arrs.Leavl).height(0);
             $('.TreeSpan-'+Arrs.Leavl).css({'background':'none'});
+            $('.TreeSpan-'+(parseInt(Arrs.Leavl)+1)).css({'background':'none'});
             if(Path != ''){
                 this.$router.push({
                     path:Path
@@ -51,6 +52,7 @@ export default {
             }else{
                 $('.item-ul-'+Arrs.Leavl+'[id='+ids+']').css({'height':'auto'});
                 $('.TreeSpan-'+Arrs.Leavl+'[data-id='+ids+']').css({'background':'rgb(3,'+Arrs.Leavl+','+(Arrs.Leavl*12)+')'});
+
             }
       }
     }
