@@ -39,10 +39,10 @@
                 </div>
                 <div class="la-from-group">
                     <label for="">级次</label>
-                    <div class="input-box">
-                        <select type="text" v-model="TreeLevel">
-                            <option :value="item.Id" v-for="item in selectMean" :key="item.Id" :id="item.Id">{{item.Text}}</option>
-                        </select>
+                    <div class="input-box select-ul-box">
+                        <ul class="select-ul">
+                            <li :value="item.Id" v-for="item in selectMean" :key="item.Id" :id="item.Id">{{item.Text}}</li>
+                        </ul>
                     </div>
                 </div>
                 <div class="la-from-group">
@@ -453,6 +453,16 @@ export default {
                 }
             }
         }
+    }
+    .select-ul-box{
+        height: 30px;
+    }
+    .select-ul{
+        position: absolute;
+        width: 100%;
+        top:85px;
+        left: 165px;
+        list-style: none;
     }
 
    
