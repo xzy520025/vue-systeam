@@ -1,24 +1,24 @@
 <template>
-    <li :class="CssName">
-        <span :class="'TreeSpan TreeSpan-'+model.Leavl" :style="{background:model.backgorund}" style="color:#fff;" @click="LinkRouter(model.Path,model.Id,model,$event)" :data-id="model.Id" ref="dataId">{{model.Text}}</span>
-        <ul v-if="model.Children.length > 0" :class="'item-ul-child item-ul-'+model.Leavl" :id="model.Id">
-            <recur-sive v-for="(item,i) in model.Children" :model="item" :Mindex="i" :key="item.Id"></recur-sive>
+    <li :class="CssName" v-if="type == 'tree' && model.Id != '0'">
+        <span :class="'TreeSpan TreeSpan-'+model.Leavl" :style="{background:model.backgorund}" style="color:#fff;" @click="LinkRouter(model.Path,model.Id,model,$event)" :data-pid="model.ParentId" :data-id="model.Id" ref="dataId">{{model.Text}}</span>
+        <ul v-if="model.Children.length > 0" :class="'item-ul-child item-ul-'+model.Id" :id="model.Id" :data-pid="model.ParentId">
+            <recur-sive v-for="(item) in model.Children" :model="item" :type="'tree'" :key="item.Id"></recur-sive>
         </ul> 
     </li>
-
+    <li v-else-if="type == 'option'" class="optionlist">
+        <span :class="'option option-'+model.Leavl" @click="Checkoption(model.Id,model.Text,model.Leavl)">{{model.Text}}</span>
+        <ul v-if="model.Children.length > 0" :class="'option-ul-child option-ul-'+model.Leavl" :id="model.Id">
+            <recur-sive v-for="(item) in model.Children" :model="item" :type="'option'" :key="item.Id"></recur-sive>
+        </ul> 
+    </li>
 </template>
 <script>
 export default {
     name:'recurSive',
-    props: ['model','Mindex'],
+    props: ['model','type','arrr'],
     data(){
         return {
-            msg:'111',
-            CssBg:'',
-            CheckId:null,
-            bgg:false,
-            bgg_child:false,
-            bggs:'red'
+            ParentId:null
         }
     },
     mounted(){
@@ -26,7 +26,6 @@ export default {
         this.model['backgorund'] = 'none';
         this.model['height'] = '0px';
         this.model['_ID'] = this.model.Id;
-        console.log(this.Mindex)
     },  
     computed:{
        CssName(){
@@ -41,20 +40,66 @@ export default {
     methods:{
         LinkRouter(Path,Id,Arrs,el){
             var ids = this.$refs.dataId.dataset.id;
-            $('.item-ul-'+Arrs.Leavl).height(0);
-            $('.TreeSpan-'+Arrs.Leavl).css({'background':'none'});
-            $('.TreeSpan-'+(parseInt(Arrs.Leavl)+1)).css({'background':'none'});
+         
+            // console.log($('.TreeSpan-'+(parseInt(Arrs.Leavl)+1)).attr('data-pid') != $('.item-ul-'+Arrs.Id).attr('data-pid'));
+            // if($('.TreeSpan-'+(parseInt(Arrs.Leavl)+1)).attr('data-pid') != $('.item-ul-'+Arrs.Id).attr('data-pid')){
+            //     $('.item-ul-child6').height(0);
+            // }
+            
+            // $('.TreeSpan-'+Arrs.Leavl).css({'background':'none'});
+            // $('.TreeSpan-'+(parseInt(Arrs.Leavl)+1)).css({'background':'none'});
             if(Path != ''){
                 this.$router.push({
                     path:Path
                 })
-                $('.TreeSpan-'+Arrs.Leavl+'[data-id='+ids+']').css({'background':'rgb(3,'+Arrs.Leavl+','+(Arrs.Leavl*12)+')'});
+                // $('.TreeSpan-'+Arrs.Leavl+'[data-id='+ids+']').css({'background':'rgb(3,'+Arrs.Leavl+','+(Arrs.Leavl*12)+')'});
             }else{
-                $('.item-ul-'+Arrs.Leavl+'[id='+ids+']').css({'height':'auto'});
-                $('.TreeSpan-'+Arrs.Leavl+'[data-id='+ids+']').css({'background':'rgb(3,'+Arrs.Leavl+','+(Arrs.Leavl*12)+')'});
+                
+                // $('.item-ul-'+Arrs.Id+'[id='+ids+']').css({'height':'auto'});
+                // $('.TreeSpan-'+Arrs.Leavl+'[data-id='+ids+']').css({'background':'rgb(3,'+Arrs.Leavl+','+(Arrs.Leavl*12)+')'});
 
             }
-      }
+        
+            // this.GuiArr(this.arrr,ids)
+            console.log(this.model)
+            this.ChangeLeftList(this.model.Id);
+      },
+      Checkoption(Id,Text,level){
+          this.$emit('ListenChild',{cId:Id,cText:Text,Top:1000,level:level});
+      },
+      GuiArr(arr,Id){
+        
+        for(var y = 0;y<arr.length;y++){
+            if(Id == arr[y].Id){
+                arr[y].backgorund = 'red';
+            
+            }else{
+                if(arr[y].Children.length > 0){
+                    this.GuiArr(arr[y].Children)
+                }else{
+                    arr[y].backgorund = 'black';
+                  
+                }
+            }
+        }
+
+          
+        //   for(var i = 0;i<arr.length;i++){
+        //     if(Id == arr[i].Id){
+        //         arr[i].backgorund = 'red';
+        //     }else{
+        //         if(arr[i].Children.length > 0){
+        //             arr_(arr[i].Children)
+        //         }else{
+        //             arr[i].backgorund = 'black';
+        //         }
+        //     }
+        //   }
+      },
+        ChangeLeftList(Id){
+            // let newArr = this.arrr;
+            this.$emit('ChangeLeftNenArr',Id);
+        }
     }
 }
 </script>
@@ -70,6 +115,12 @@ export default {
     }
     .no-active_child{
         background: gold;
+    }
+    .optionlist{
+    
+        line-height: 28px;
+        text-indent: 10px;
+        cursor: pointer;
     }
 </style>
 

@@ -4,8 +4,8 @@
             <h4>VUE后台管理</h4>
             <div :style="{height:windowHeight + 'px'}">
                 <ul class="Mean-list" :style="{top:MeanListTop + 'px'}" @mousewheel="mousewheel">
-                    <blockquote v-for="(item,i) in Mean" :key="item.Id">
-                        <recur-sive :model="item" :Mindex="i"></recur-sive>
+                    <blockquote v-for="(item) in Mean" :key="item.Id">
+                        <recur-sive :model="item"  :arrr="Mean" :type="'tree'" v-on:ChangeLeftNenArr="getChangeLeftNenArr"></recur-sive>
                     </blockquote>
                 </ul>
             </div>
@@ -37,11 +37,14 @@
                         <input type="text" v-model="TreeName">
                     </div>
                 </div>
-                <div class="la-from-group">
+                <div class="la-from-group" style="overflow: inherit;margin-bottom: 50px;">
                     <label for="">级次</label>
-                    <div class="input-box select-ul-box">
-                        <ul class="select-ul">
-                            <li :value="item.Id" v-for="item in selectMean" :key="item.Id" :id="item.Id">{{item.Text}}</li>
+                    <div class="input-box select-ul-box" style="position:relative;">
+                        <input type="text" v-model="TreeLevel" :Id="TreepId" readonly="readonly" @click="ShowselecTul();">
+                        <ul class="select-ul" :style="{'top':selecTulTop + 'px'}">
+                            <blockquote v-for="(item) in Mean" :key="item.Id">
+                                <recur-sive :model="item" :type="'option'" v-on:ListenChild="getListenChild"></recur-sive>
+                            </blockquote>
                         </ul>
                     </div>
                 </div>
@@ -75,11 +78,13 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import recurSive from './Customize/Recursive';
+import seleCt from './Customize/Select';
 export default {
   name: 'Systeam',
   components:{
-      recurSive:recurSive,
+      recurSive:recurSive
   },
   data () {
     return {
@@ -89,48 +94,27 @@ export default {
       SysteamContent:'',
       AddTreeBoxState:'none',
       TreeName:'',
-      TreeLevel:'',
+      TreeLevel:'== 请选择节点 ==',
       TreePath:'',
       TreeSort:'',
-      TreeId:0,
+      TreeId:null,
       TreeDep:'',
+      TreepId:'',
+      selecTulTop:1000,
       selectMean:[
-          {
-              'Id':'0',
-              'Text':'== 顶级节点 =='
-          }
+         
       ],
       Mean:[
-            // {
-            //     'Id':'2008741248741',
-            //     'Text':'系统管理',
-            //     'Path':'',
-            //     'Leavl':'1',
-            //     'Children':[
-            //         {
-            //             'Id':'20588478784',
-            //             'Text':'控制台',
-            //             'Path':'/Systeams/Console',
-                
-            //             'Leavl':'2',
-            //             'Children':[]
-            //         },
-            //         {
-            //             'Id':'2008754156487',
-            //             'Text':'个人中心',
-            //             'Path':'/Systeams/UserMessage',
-            //             'Children':[],
-            //             'Leavl':'2',
-            //         }
-            //     ]
-            // },
-            // {
-            //     'Id':'2008741248741222',
-            //     'Text':'业务视图',
-            //     'Path':'',
-            //     'Leavl':'1',
-            //     'Children':[]
-            // }
+        {
+            'Id':'0',
+            'Text':'顶级节点',
+            'ParentId':'0',
+            'Path':'',
+            'Leavl':0,
+            'Sort':'',
+            'Dep':'',
+            'Children':[]
+        }
       ]
     }
   },
@@ -146,12 +130,13 @@ export default {
   computed:{
       Input_data(){
           var _this = this;
-          this.$data.TreeId++;
+            
           let data = {
                 'Id':_this.$data.TreeId,
+                'ParentId':_this.$data.TreepId,
                 'Text':_this.$data.TreeName,
                 'Path':_this.$data.TreePath,
-                'Leavl':_this.$data.TreeLevel,
+                'Leavl':_this.$data.leveltrees,
                 'Sort':_this.$data.TreeSort,
                 'Dep':_this.$data.TreeDep,
                 'Children':[]
@@ -160,9 +145,11 @@ export default {
       },
       TreeArr(){
           var _this = this;
+          _this.$data.TreeId = (new Date().getFullYear() + String(Math.random().toString(36).substr(2)) + (new Date().getMonth() + 1) + new Date().getDate());
           function ForFor(arr){
               for(let i = 0;i<arr.length;i++){
-                  if(arr[i].Id == _this.Input_data.Leavl){
+                  if(arr[i].Id == _this.Input_data.ParentId){
+                      _this.Input_data.Leavl = i;
                       arr[i].Children.push(_this.Input_data);
                   }
                   if(arr[i].Children.length > 0){
@@ -170,23 +157,26 @@ export default {
                   }
               }
           }
-          if(this.Input_data.Leavl != 0){
-              for(let i = 0;i<_this.$data.Mean.length;i++){
-                  if(_this.$data.Mean[i].Id == _this.Input_data.Leavl){
-                      _this.$data.Mean[i].Children.push(_this.Input_data);
-                  }else
-                  if(_this.$data.Mean[i].Children.length > 0){
-                      ForFor(_this.$data.Mean[i].Children)
-                  }
-              }
+          if(this.Input_data.ParentId != 0){
+            //   for(let i = 0;i<_this.$data.Mean.length;i++){
+            //       if(_this.$data.Mean[i].Id == _this.Input_data.ParentId){
+            //           _this.$data.Mean[i].Children.push(_this.Input_data);
+            //       }else
+            //       if(_this.$data.Mean[i].Children.length > 0){
+            //           ForFor(_this.$data.Mean[i].Children)
+            //       }
+            //   }
+            ForFor(_this.$data.Mean)
           }else{
+            
               this.$data.Mean.push(this.Input_data);
           }
         
-          this.$data.selectMean.push(this.Input_data);
+         
+         
       },
       Option(){
-          this.$data.TreeLevel = this.$data.selectMean[0].Id;
+        //   this.$data.TreeLevel = this.$data.selectMean[0].Id;
       },
       ClearInput(){
         this.$data.TreeId = '';
@@ -225,6 +215,36 @@ export default {
     },
     AddTreeOn(){
         this.TreeArr
+        console.log(this.$data.Mean)
+    },
+    getListenChild(res){
+        console.log(res)
+        this.$data.TreeLevel = res.cText;
+        this.$data.TreepId = res.cId;
+        this.$data.selecTulTop = res.Top;
+        this.$data.leveltrees = res.level;
+    },
+    ShowselecTul(){
+        this.$data.selecTulTop == 1000 ? this.$data.selecTulTop = 30 : this.$data.selecTulTop = 1000;
+       
+    },
+    getChangeLeftNenArr(Id){
+        for(var y = 0;y<this.$data.Mean.length;y++){
+            if(Id == this.$data.Mean[y].Id){
+                Vue.set(this.$data.Mean[y],'backgorund','red');
+            }else{
+                if(this.$data.Mean[y].Children.length > 0){
+                    this.getChangeLeftNenArr(this.$data.Mean[y].Children)
+                }else{
+                    // this.$data.Mean[y].backgorund = 'black';
+                    Vue.set(this.$data.Mean[y],'backgorund','black');
+                  
+                }
+            }
+        }
+    
+  
+        console.log(this.$data.Mean);
     }
   }
 }
@@ -460,9 +480,11 @@ export default {
     .select-ul{
         position: absolute;
         width: 100%;
-        top:85px;
-        left: 165px;
+        top:1000px;
+        left: -1px;
         list-style: none;
+        background: #fff;
+        border: 1px solid #ccc;
     }
 
    
