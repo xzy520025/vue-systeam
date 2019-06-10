@@ -245,6 +245,7 @@ export default {
     
   
         console.log(this.$data.Mean);
+        console.log('??');
     }
   }
 }
