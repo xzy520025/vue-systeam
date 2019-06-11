@@ -1,7 +1,7 @@
 <template>
     <li :class="CssName" v-if="type == 'tree' && model.Id != '0'">
-        <span :class="'TreeSpan TreeSpan-'+model.Leavl" :style="{background:model.backgorund}" style="color:#fff;" @click="LinkRouter(model.Path,model.Id,model,$event)" :data-pid="model.ParentId" :data-id="model.Id" ref="dataId">{{model.Text}}</span>
-        <ul v-if="model.Children.length > 0" :class="'item-ul-child item-ul-'+model.Id" :id="model.Id" :data-pid="model.ParentId">
+        <span :class="'TreeSpan TreeSpan-'+model.Leavl" :style="{background:model.background}" @click="LinkRouter(model.Path,model.Id,model,$event)" :data-pid="model.ParentId" :data-id="model.Id" ref="dataId">{{model.Text}}</span>
+        <ul v-if="model.Children.length > 0" :class="'item-ul-child item-ul-'+model.Id" :id="model.Id" :data-pid="model.ParentId" :style="{height:model.height}">
             <recur-sive v-for="(item) in model.Children" :model="item" :type="'tree'" :key="item.Id"></recur-sive>
         </ul> 
     </li>
@@ -22,9 +22,8 @@ export default {
         }
     },
     mounted(){
-        var Arr = this.model;
-        this.model['backgorund'] = 'none';
-        this.model['height'] = '0px';
+        let Arr = this.model;
+
         this.model['_ID'] = this.model.Id;
     },  
     computed:{
@@ -39,7 +38,7 @@ export default {
     },
     methods:{
         LinkRouter(Path,Id,Arrs,el){
-            var ids = this.$refs.dataId.dataset.id;
+            let ids = this.$refs.dataId.dataset.id;
          
             // console.log($('.TreeSpan-'+(parseInt(Arrs.Leavl)+1)).attr('data-pid') != $('.item-ul-'+Arrs.Id).attr('data-pid'));
             // if($('.TreeSpan-'+(parseInt(Arrs.Leavl)+1)).attr('data-pid') != $('.item-ul-'+Arrs.Id).attr('data-pid')){
@@ -71,13 +70,12 @@ export default {
         
         for(var y = 0;y<arr.length;y++){
             if(Id == arr[y].Id){
-                arr[y].backgorund = 'red';
-            
+                arr[y].background = 'red';
             }else{
                 if(arr[y].Children.length > 0){
                     this.GuiArr(arr[y].Children)
                 }else{
-                    arr[y].backgorund = 'black';
+                    arr[y].background = 'black';
                   
                 }
             }
@@ -86,17 +84,18 @@ export default {
           
         //   for(var i = 0;i<arr.length;i++){
         //     if(Id == arr[i].Id){
-        //         arr[i].backgorund = 'red';
+        //         arr[i].background = 'red';
         //     }else{
         //         if(arr[i].Children.length > 0){
         //             arr_(arr[i].Children)
         //         }else{
-        //             arr[i].backgorund = 'black';
+        //             arr[i].background = 'black';
         //         }
         //     }
         //   }
       },
         ChangeLeftList(Id){
+            debugger;
             // let newArr = this.arrr;
             this.$emit('ChangeLeftNenArr',Id);
         }

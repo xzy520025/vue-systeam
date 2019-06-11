@@ -150,6 +150,8 @@ export default {
               for(let i = 0;i<arr.length;i++){
                   if(arr[i].Id == _this.Input_data.ParentId){
                       _this.Input_data.Leavl = i;
+                      _this.Input_data['background'] = 'none';
+                      _this.Input_data['height'] = '0px';
                       arr[i].Children.push(_this.Input_data);
                   }
                   if(arr[i].Children.length > 0){
@@ -168,7 +170,8 @@ export default {
             //   }
             ForFor(_this.$data.Mean)
           }else{
-            
+              this.Input_data['background'] = 'none';
+              this.Input_data['height'] = '0px';
               this.$data.Mean.push(this.Input_data);
           }
         
@@ -229,19 +232,26 @@ export default {
        
     },
     getChangeLeftNenArr(Id){
-        for(var y = 0;y<this.$data.Mean.length;y++){
-            if(Id == this.$data.Mean[y].Id){
-                Vue.set(this.$data.Mean[y],'backgorund','red');
-            }else{
-                if(this.$data.Mean[y].Children.length > 0){
-                    this.getChangeLeftNenArr(this.$data.Mean[y].Children)
+
+        digui(this.$data.Mean);
+        function digui(arr){
+          
+            for(var y = 0;y<arr.length;y++){
+                if(Id == arr[y].Id){
+                    console.log(arr[y])
+                    Vue.set(arr[y],'background','red');
+                    Vue.set(arr[y],'height','auto');
                 }else{
-                    // this.$data.Mean[y].backgorund = 'black';
-                    Vue.set(this.$data.Mean[y],'backgorund','black');
-                  
+                    console.log(arr[y])
+                    Vue.set(arr[y],'background','none');
+                    Vue.set(arr[y],'height','0px');
+                }
+                if(arr[y].Children.length > 0){
+                    digui(arr[y].Children)
                 }
             }
         }
+        
     
   
         console.log(this.$data.Mean);
